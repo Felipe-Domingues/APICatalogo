@@ -33,6 +33,24 @@ public class ProdutosController : ControllerBase
         }
     }
 
+    [HttpGet("primeiro")]
+    public ActionResult<Produto> GetPrimeiro()
+    {
+        try
+        {
+            var produto = _context.Produtos.AsNoTracking().FirstOrDefault();
+
+            if (produto is null)
+                return NotFound("Produto não encontrado...");
+
+            return produto;
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+        }
+    }
+
     [HttpGet("{id:int}", Name = "ObterProduto")]
     public ActionResult<Produto> Get(int id)
     {

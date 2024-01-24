@@ -208,3 +208,4 @@
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/APICatalogo.pdb
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/APICatalogo.genruntimeconfig.cache
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/ref/APICatalogo.dll
+/Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/APICatalogo.sourcelink.json
