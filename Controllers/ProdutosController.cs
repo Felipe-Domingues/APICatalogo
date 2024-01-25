@@ -16,11 +16,11 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Produto>> Get()
+    public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
     {
         try
         {
-            var produtos = _context.Produtos.AsNoTracking().Take(10).ToList();
+            var produtos = await _context.Produtos.AsNoTracking().Take(10).ToListAsync();
 
             if (produtos is null)
                 return NotFound("Produtos não encontrados...");
@@ -34,11 +34,11 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpGet("primeiro")]
-    public ActionResult<Produto> GetPrimeiro()
+    public async Task<ActionResult<Produto>> GetPrimeiroAsync()
     {
         try
         {
-            var produto = _context.Produtos.AsNoTracking().FirstOrDefault();
+            var produto = await _context.Produtos.AsNoTracking().FirstOrDefaultAsync();
 
             if (produto is null)
                 return NotFound("Produto não encontrado...");
@@ -51,12 +51,12 @@ public class ProdutosController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}", Name = "ObterProduto")]
-    public ActionResult<Produto> Get(int id)
+    [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
+    public async Task<ActionResult<Produto>> GetAsync(int id)
     {
         try
         {
-            var produto = _context.Produtos.AsNoTracking().Take(10).FirstOrDefault(p => p.ProdutoId == id);
+            var produto = await _context.Produtos.AsNoTracking().Take(10).FirstOrDefaultAsync(p => p.ProdutoId == id);
             if (produto is null)
                 return NotFound($"Produto com ID {id} não encontrado...");
 
@@ -87,7 +87,7 @@ public class ProdutosController : ControllerBase
         }
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:int:min(1)}")]
     public ActionResult Put(int id, Produto produto)
     {
         try
@@ -106,7 +106,7 @@ public class ProdutosController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:int:min(1)}")]
     public ActionResult Delete(int id)
     {
         try

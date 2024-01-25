@@ -18,11 +18,11 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("produtos")]
-    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoriasProdutosAsync()
     {
         try
         {
-            var categorias = _context.Categorias.Include(p => p.Produtos).AsNoTracking().Take(10).ToList();
+            var categorias = await _context.Categorias.Include(p => p.Produtos).AsNoTracking().Take(10).ToListAsync();
 
             if (categorias is null)
                 return NotFound("Categorias não encontradas...");
@@ -36,11 +36,11 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Categoria>> Get()
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetAsync()
     {
         try
         {
-            var categorias = _context.Categorias.AsNoTracking().Take(10).ToList();
+            var categorias = await _context.Categorias.AsNoTracking().Take(10).ToListAsync();
 
             if (categorias is null)
                 return NotFound("Categorias não encontradas...");
@@ -53,12 +53,12 @@ public class CategoriasController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}", Name = "ObterCategoria")]
-    public ActionResult<Categoria> Get(int id)
+    [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
+    public async Task<ActionResult<Categoria>> GetAsync(int id)
     {
         try
         {
-            var categoria = _context.Categorias.AsNoTracking().Take(10).FirstOrDefault(c => c.CategoriaId == id);
+            var categoria = await _context.Categorias.AsNoTracking().Take(10).FirstOrDefaultAsync(c => c.CategoriaId == id);
 
             if (categoria is null)
                 return NotFound($"Categoria com ID {id} não encontrada...");
@@ -90,7 +90,7 @@ public class CategoriasController : ControllerBase
         }
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:int:min(1)}")]
     public ActionResult Put(int id, Categoria categoria)
     {
         try
@@ -109,7 +109,7 @@ public class CategoriasController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:int:min(1)}")]
     public ActionResult Delete(int id)
     {
         try
