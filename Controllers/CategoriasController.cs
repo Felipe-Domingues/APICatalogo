@@ -29,9 +29,9 @@ public class CategoriasController : ControllerBase
 
             return categorias;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -47,9 +47,9 @@ public class CategoriasController : ControllerBase
 
             return categorias;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -84,9 +84,9 @@ public class CategoriasController : ControllerBase
 
             return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -103,9 +103,9 @@ public class CategoriasController : ControllerBase
 
             return Ok(categoria);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -123,9 +123,9 @@ public class CategoriasController : ControllerBase
 
             return Ok(categoria);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 }

@@ -1,4 +1,5 @@
 using APICatalogo.Context;
+using APICatalogo.Filters;
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
     public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
     {
         try
@@ -27,9 +29,9 @@ public class ProdutosController : ControllerBase
 
             return produtos;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -45,9 +47,9 @@ public class ProdutosController : ControllerBase
 
             return produto;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -62,9 +64,9 @@ public class ProdutosController : ControllerBase
 
             return produto;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -81,9 +83,9 @@ public class ProdutosController : ControllerBase
 
             return new CreatedAtRouteResult("ObterProduto", new { id = produto.ProdutoId }, produto);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -100,9 +102,9 @@ public class ProdutosController : ControllerBase
 
             return Ok(produto);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 
@@ -120,9 +122,9 @@ public class ProdutosController : ControllerBase
 
             return Ok(produto);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a solicitação.");
+            throw ex;
         }
     }
 }

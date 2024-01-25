@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using APICatalogo.Context;
+using APICatalogo.Extensions;
+using APICatalogo.Filters;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ApiLoggingFilter>();
 
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -26,10 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsProduction())
-{
-    app.UseExceptionHandler("/Error");
-}
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 
