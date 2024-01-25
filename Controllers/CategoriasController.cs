@@ -1,4 +1,3 @@
-using System;
 using APICatalogo.Context;
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +10,12 @@ namespace APICatalogo.Controllers;
 public class CategoriasController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly ILogger _logger;
 
-    public CategoriasController(AppDbContext context)
+    public CategoriasController(AppDbContext context, ILogger<CategoriasController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [HttpGet("produtos")]
@@ -22,6 +23,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("==================== GET /categorias/produtos ====================");
             var categorias = await _context.Categorias.Include(p => p.Produtos).AsNoTracking().Take(10).ToListAsync();
 
             if (categorias is null)
