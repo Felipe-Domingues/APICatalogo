@@ -209,3 +209,5 @@
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/APICatalogo.genruntimeconfig.cache
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/ref/APICatalogo.dll
 /Users/felipedomingues/Projetos/DotNet/APICatalogo/obj/Debug/net8.0/APICatalogo.sourcelink.json
+/Users/felipedomingues/Projetos/DotNet/APICatalogo/bin/Debug/net8.0/AutoMapper.dll
+/Users/felipedomingues/Projetos/DotNet/APICatalogo/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

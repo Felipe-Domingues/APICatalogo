@@ -1,8 +1,8 @@
-using APICatalogo.Context;
+using APICatalogo.DTOs;
 using APICatalogo.Models;
 using APICatalogo.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Controllers;
 
@@ -12,15 +12,17 @@ public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uow;
     private readonly ILogger _logger;
+    private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork uow, ILogger<CategoriasController> logger)
+    public CategoriasController(IUnitOfWork uow, ILogger<CategoriasController> logger, IMapper mapper)
     {
         _uow = uow;
         _logger = logger;
+        _mapper = mapper;
     }
 
     [HttpGet("produtos")]
-    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+    public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
     {
         try
         {
@@ -30,7 +32,9 @@ public class CategoriasController : ControllerBase
             if (categorias is null)
                 return NotFound("Categorias não encontradas...");
 
-            return categorias;
+            var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+            
+            return categoriasDto;
         }
         catch (Exception ex)
         {
@@ -39,7 +43,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Categoria>> Get()
+    public ActionResult<IEnumerable<CategoriaDTO>> Get()
     {
         try
         {
@@ -48,7 +52,9 @@ public class CategoriasController : ControllerBase
             if (categorias is null)
                 return NotFound("Categorias não encontradas...");
 
-            return categorias;
+            var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+            
+            return categoriasDto;
         }
         catch (Exception ex)
         {
@@ -57,7 +63,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
-    public ActionResult<Categoria> Get(int id)
+    public ActionResult<CategoriaDTO> Get(int id)
     {
         try
         {
@@ -66,7 +72,9 @@ public class CategoriasController : ControllerBase
             if (categoria is null)
                 return NotFound($"Categoria com ID {id} não encontrada...");
 
-            return categoria;
+            var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+            
+            return categoriaDto;
         }
         catch (Exception)
         {
@@ -75,17 +83,20 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post(Categoria categoria)
+    public ActionResult Post(CategoriaDTO categoriaDto)
     {
         try
         {
+            var categoria = _mapper.Map<Categoria>(categoriaDto);
             if (categoria is null)
                 return BadRequest("Dados inválidos");
 
             _uow.CategoriaRepository.Add(categoria);
             _uow.Commit();
 
-            return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria);
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
+
+            return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoriaDTO);
         }
         catch (Exception ex)
         {
@@ -94,17 +105,19 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPut("{id:int:min(1)}")]
-    public ActionResult Put(int id, Categoria categoria)
+    public ActionResult Put(int id, Categoria categoriaDto)
     {
         try
         {
-            if (id != categoria.CategoriaId)
+            if (id != categoriaDto.CategoriaId)
                 return BadRequest("Dados inválidos");
 
+            var categoria = _mapper.Map<Categoria>(categoriaDto);
             _uow.CategoriaRepository.Update(categoria);
             _uow.Commit();
 
-            return Ok(categoria);
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
+            return Ok(categoriaDTO);
         }
         catch (Exception ex)
         {
@@ -124,7 +137,8 @@ public class CategoriasController : ControllerBase
             _uow.CategoriaRepository.Delete(categoria);
             _uow.Commit();
 
-            return Ok(categoria);
+            var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+            return Ok(categoriaDto);
         }
         catch (Exception ex)
         {
